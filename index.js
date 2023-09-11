@@ -7,7 +7,15 @@ app.get('/api', (req, res) => {
 
   const currentDate = new Date();
   const current_day = currentDate.toLocaleDateString('en-US', { weekday: 'long' });
-  const utc_time = currentDate.toISOString();
+//   const utc_time = currentDate.toISOString();
+
+  const year = currentDate.getUTCFullYear();
+  const month = String(currentDate.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getUTCDate()).padStart(2, '0');
+  const hours = String(currentDate.getUTCHours()).padStart(2, '0');
+  const minutes = String(currentDate.getUTCMinutes()).padStart(2, '0');
+  const seconds = String(currentDate.getUTCSeconds()).padStart(2, '0');
+  const utc_time = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
 
   const responseData = {
     slack_name,
