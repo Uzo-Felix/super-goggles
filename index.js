@@ -87,7 +87,18 @@ app.put('/api/:userId', [
   }
 });
 
+// Remove a person
+app.delete('/api/:userId', async(req, res) => {
+  const userId = req.params.userId;
 
+  try{
+    await Person.findByIdAndRemove(userId)
+    return res.status(204).send();
+  } catch(err){
+    console.error(err);
+    return res.status(404).json({error: 'Person not found'});
+  }
+});
 
 // Start the server
 app.listen(port, () => {
