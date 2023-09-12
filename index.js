@@ -30,6 +30,28 @@ const Person = mongoose.model('Person', personSchema);
 // Middleware
 app.use(bodyParser.json());
 
+// Create a new person
+app.post('/api', [
+  body('name').isString().notEmpty(),
+], async(req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { name } = req.body;
+
+  try{
+    const userDoc = await Person.create({
+      name,
+    });
+    return res.status(201).json(userDoc);
+  } catch(e) {
+    console.log(e);
+    return res.status(500).json({error: 'Internal Server Error'});
+  }
+});
+
 
 
 // Start the server
