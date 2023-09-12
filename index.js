@@ -104,3 +104,8 @@ app.delete('/api/:userId', async(req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+// Catch-all route for unspecified routes
+app.use((req, res) => {
+  res.status(404).json({ error: 'Not Found' });
+});
