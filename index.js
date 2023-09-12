@@ -66,6 +66,27 @@ app.get('/api/:userId', async(req, res) => {
 
 });
 
+// Modify details of an existing person
+app.put('/api/:userId', [
+  body('name').isString().notEmpty(),
+], async(req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const userId = req.params.userId;
+  const { name } = req.body;
+
+  try{
+    const userDoc = await Person.findByIdAndUpdate(userId, { name })
+    return res.status(200).json(userDoc);
+  } catch(err){
+    console.error(err);
+    return res.status(404).json({error: 'Person not found'});
+  }
+});
+
 
 
 // Start the server
