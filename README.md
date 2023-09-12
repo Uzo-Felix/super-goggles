@@ -117,7 +117,7 @@ Content-Type: application/json
 
 ### Fetching Details of a Person
 
-To retrieve details of a person by their ID, send a GET request to `/api/:userId`, where `:userId` is the ID of the person:
+To retrieve details of a person by their ID(_id you received as a response on post request), send a GET request to `/api/:userId`, where `:userId` is the ID of the person:
 
 ```http
 GET /api/5f8b3de1e6b29b54a873f1c7
@@ -144,7 +144,6 @@ To delete a person by their ID, send a DELETE request to `/api/:userId`, where `
 DELETE /api/5f8b3de1e6b29b54a873f1c7
 ```
 
-Ensure proper error handling and validation when using these endpoints.
 
 Feel free to customize and expand upon this API for your specific needs.
 ```
