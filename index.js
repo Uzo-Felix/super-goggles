@@ -52,6 +52,20 @@ app.post('/api', [
   }
 });
 
+// Fetch details of a person
+app.get('/api/:userId', async(req, res) => {
+  const userId = req.params.userId;
+
+  try{
+    const userDoc = await Person.findById(userId);
+    return res.status(200).json(userDoc);
+  } catch(err){
+    console.log(err);
+    return res.status(404).json({ error: 'person not found'});
+  }
+
+});
+
 
 
 // Start the server
