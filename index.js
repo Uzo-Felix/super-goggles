@@ -8,17 +8,20 @@ const app = express();
 const port = process.env.PORT || 3000;
 const mongoUri = process.env.MONGO_URI;
 
-// MongoDB connection
-mongoose.connect( mongoUri , {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// connect mongodb and start server
+mongoose.connect(mongoUri)
+  .then(() => {
+    console.log('Connected to MongoDB');
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', () => {
-  console.log('Connected to MongoDB');
-});
+    app.listen(port, () => {
+      console.log(`Server is running on  port ${port}`)
+    });
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB:', error);
+    process.exit(1);
+  })
+
 
 // Define a Person schema and model
 const personSchema = new mongoose.Schema({
@@ -98,11 +101,6 @@ app.delete('/api/:userId', async(req, res) => {
     console.error(err);
     return res.status(404).json({error: 'Person not found'});
   }
-});
-
-// Start the server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
 });
 
 // Catch-all route for unspecified routes
